@@ -188,47 +188,57 @@
 
   /* SECCIÓN PREGUNTA */
   .seccion-pregunta {
-    padding: 140px 60px;
+    padding: 0;
     background: var(--blanco);
     color: var(--negro);
     position: relative;
+    min-height: 90vh;
   }
-  .seccion-pregunta::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 60px; right: 60px;
-    height: 1px;
-    background: rgba(10,10,10,0.12);
+  .pregunta-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 90vh;
   }
+  .pregunta-izquierda {
+    padding: 100px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1px solid rgba(10,10,10,0.08);
+  }
+  .pregunta-derecha {
+    padding: 100px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 24px;
+  }
+  .pregunta-card {
+    border: 1px solid rgba(10,10,10,0.1);
+    padding: 40px;
+    background: rgba(10,10,10,0.02);
+  }
+  .pregunta-card p {
+    font-size: 15px;
+    line-height: 1.85;
+    color: rgba(10,10,10,0.55);
+  }
+  .pregunta-card p strong { color: var(--negro); font-weight: 500; }
   .pregunta-tag {
     font-size: 11px;
     letter-spacing: 4px;
     text-transform: uppercase;
     color: var(--rojo);
-    margin-bottom: 48px;
+    margin-bottom: 40px;
   }
   .pregunta-texto {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(36px, 5vw, 68px);
-    font-weight: 700;
-    line-height: 1.1;
-    max-width: 900px;
-    letter-spacing: -1px;
+    font-size: clamp(40px, 4.5vw, 72px);
+    font-weight: 900;
+    line-height: 1.0;
+    letter-spacing: -2px;
   }
-  .pregunta-texto em { font-style: italic; color: var(--rojo); }
-  .pregunta-respuesta {
-    margin-top: 64px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    max-width: 900px;
-  }
-  .pregunta-respuesta p {
-    font-size: 16px;
-    line-height: 1.85;
-    color: rgba(10,10,10,0.6);
-  }
-  .pregunta-respuesta p strong { color: var(--negro); font-weight: 500; }
+  .pregunta-texto em { font-style: italic; color: var(--rojo); display: block; margin-top: 8px; }
 
   /* SECCIÓN OBRA */
   .seccion-obra {
@@ -627,25 +637,27 @@
 
 <!-- PREGUNTA -->
 <section class="seccion-pregunta" id="seccion-pregunta">
-  <p class="pregunta-tag reveal">La pregunta que nadie responde</p>
-  <h2 class="pregunta-texto reveal">
-    ¿Cuántos teambuildings ha hecho tu empresa?<br>
-    <em>¿Y qué cambió?</em>
-  </h2>
-  <div class="pregunta-respuesta">
-    <div class="reveal" style="border:1px solid rgba(10,10,10,0.12); padding:40px; background:rgba(10,10,10,0.04);">
-      <p>
-      El teambuilding tradicional trabaja en condiciones artificiales.<br><br>
-      <strong>Sin presión real. Sin ego expuesto. Sin consecuencias.</strong><br><br>
-      El problema nunca aparece ahí.
-      </p>
+  <div class="pregunta-layout">
+    <!-- IZQUIERDA: título grande -->
+    <div class="pregunta-izquierda">
+      <p class="pregunta-tag reveal">La pregunta que nadie responde</p>
+      <h2 class="pregunta-texto reveal">
+        ¿Cuántos teambuildings<br>ha hecho tu empresa?<br>
+        <em>¿Y qué cambió?</em>
+      </h2>
     </div>
-    <div class="reveal reveal-delay-1" style="border:1px solid rgba(10,10,10,0.12); padding:40px; background:rgba(10,10,10,0.04);">
-      <p>
-      Los equipos no fallan por falta de talento.<br><br>
-      <strong>Fallan porque no saben operar en la diferencia.</strong><br><br>
-      Y eso no se resuelve con cuerdas ni kayak.
-      </p>
+    <!-- DERECHA: dos cards apilados -->
+    <div class="pregunta-derecha">
+      <div class="pregunta-card reveal">
+        <p>El teambuilding tradicional trabaja en condiciones artificiales.<br><br>
+        <strong>Sin presión real. Sin ego expuesto. Sin consecuencias.</strong><br><br>
+        El problema nunca aparece ahí.</p>
+      </div>
+      <div class="pregunta-card reveal reveal-delay-1">
+        <p>Los equipos no fallan por falta de talento.<br><br>
+        <strong>Fallan porque no saben operar en la diferencia.</strong><br><br>
+        Y eso no se resuelve con cuerdas ni kayak.</p>
+      </div>
     </div>
   </div>
 </section>
