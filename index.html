@@ -53,13 +53,32 @@
     .cursor {
       width: 32px;
       height: 32px;
-      border: 1px solid rgba(217,47,63,0.6);
+      border: 1px solid rgba(217,47,63,0.92);
       border-radius: 50%;
       position: fixed;
       z-index: 1000;
       pointer-events: none;
       transform: translate(-50%, -50%);
-      mix-blend-mode: difference;
+      mix-blend-mode: normal;
+      box-shadow: 0 0 18px rgba(217,47,63,0.25);
+      animation: cursorBreathe 2.2s ease-in-out infinite;
+      transition: width 0.22s ease, height 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .cursor.is-hovering {
+      width: 54px;
+      height: 54px;
+      border-color: rgba(217,47,63,1);
+      box-shadow: 0 0 28px rgba(217,47,63,0.38);
+    }
+
+    @keyframes cursorBreathe {
+      0%, 100% {
+        box-shadow: 0 0 14px rgba(217,47,63,0.18);
+      }
+      50% {
+        box-shadow: 0 0 30px rgba(217,47,63,0.38);
+      }
     }
 
     .cursor::after {
@@ -67,11 +86,40 @@
       position: absolute;
       width: 6px;
       height: 6px;
-      background: var(--red);
+      background: #d92f3f;
       border-radius: 50%;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(34px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .soft-glow {
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(217,47,63,0.18), transparent 66%);
+      filter: blur(18px);
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.7;
+      animation: breatheGlow 6s ease-in-out infinite;
+    }
+
+    @keyframes breatheGlow {
+      0%, 100% { opacity: 0.35; transform: scale(0.96); }
+      50% { opacity: 0.72; transform: scale(1.04); }
     }
 
     header {
@@ -113,7 +161,7 @@
     .hero::before {
       content: '';
       position: absolute;
-      inset: 0;
+      inset: -6%;
       background:
         linear-gradient(90deg,
         rgba(3,3,3,1) 0%,
@@ -124,6 +172,8 @@
       background-size: cover;
       background-position: center right;
       opacity: 0.98;
+      transform: translate3d(0, var(--hero-parallax, 0px), 0) scale(1.04);
+      will-change: transform;
     }
 
     .hero::after {
@@ -134,6 +184,12 @@
       radial-gradient(circle at 72% 28%, rgba(255,255,255,0.08), transparent 18%),
       radial-gradient(circle at 70% 72%, rgba(217,47,63,0.14), transparent 28%);
       mix-blend-mode: screen;
+      animation: lightShift 9s ease-in-out infinite;
+    }
+
+    @keyframes lightShift {
+      0%, 100% { opacity: 0.75; }
+      50% { opacity: 1; }
     }
 
     .hero-content {
@@ -240,6 +296,12 @@
       color: var(--red);
       font-weight: 800;
       text-shadow: 0 18px 55px rgba(0,0,0,0.55);
+      animation: redBreath 5.8s ease-in-out infinite;
+    }
+
+    @keyframes redBreath {
+      0%, 100% { filter: brightness(1); }
+      50% { filter: brightness(1.16); }
     }
 
     .hero-description {
@@ -331,6 +393,46 @@
       color: rgba(242,236,230,0.72);
     }
 
+    .interlude {
+      position: relative;
+      min-height: 78vh;
+      display: grid;
+      place-items: center;
+      background: var(--paper);
+      color: #050505;
+      padding: 130px 42px;
+      overflow: hidden;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .interlude::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(5,5,5,0.03), transparent 42%, rgba(0,0,0,0.02));
+      opacity: 1;
+    }
+
+    
+
+    .quote {
+      position: relative;
+      z-index: 2;
+      max-width: 1120px;
+      text-align: center;
+      font-family: var(--serif);
+      font-size: clamp(48px, 5.4vw, 112px);
+      line-height: 1.02;
+      letter-spacing: -0.06em;
+      font-weight: 900;
+    }
+
+    .quote span {
+      color: var(--red);
+      font-style: italic;
+    }
+
     .section-light {
       background: var(--paper);
       color: black;
@@ -383,6 +485,7 @@
     .card:hover {
       transform: translateX(12px);
       background: rgba(255,255,255,0.26);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.06);
     }
 
     .card p {
@@ -446,6 +549,13 @@
       align-items: center;
       text-align: center;
       background: rgba(255,255,255,0.015);
+      transition: transform 0.35s ease, border-color 0.35s ease, background 0.35s ease;
+    }
+
+    .award-card:hover {
+      transform: translateY(-7px);
+      border-color: rgba(215,181,109,0.35);
+      background: rgba(255,255,255,0.035);
     }
 
     .award-icon {
@@ -674,37 +784,274 @@
         display: none;
       }
 
-      header,
+      header {
+        padding: 24px 20px;
+        align-items: flex-start;
+      }
+
+      .logo {
+        width: 104px;
+      }
+
+      .meta {
+        max-width: 150px;
+        text-align: right;
+        font-size: 9px;
+        line-height: 1.6;
+        letter-spacing: 0.24em;
+      }
+
       .hero,
       .section-light,
       .section-dark,
-      .final {
-        padding-left: 22px;
-        padding-right: 22px;
+      .final,
+      .interlude {
+        padding-left: 20px;
+        padding-right: 20px;
       }
 
       .hero {
-        padding-top: 150px;
+        min-height: 100svh;
+        padding-top: 138px;
+        padding-bottom: 96px;
+        align-items: flex-end;
       }
 
       .hero::before {
-        background-position: 72% center;
+        inset: 0;
+        background-position: 68% center;
+        opacity: 0.72;
+        transform: translate3d(0, calc(var(--hero-parallax, 0px) * 0.35), 0) scale(1.08);
       }
 
-      .moments-grid {
-        grid-template-columns: 1fr;
+      .pill {
+        width: auto;
+        max-width: 100%;
+        padding: 12px 14px;
+        font-size: 9px;
+        letter-spacing: 0.2em;
+        line-height: 1.7;
+        margin-bottom: 28px;
+      }
+
+      .hero-eyebrow {
+        font-size: 9px;
+        letter-spacing: 0.24em;
+        line-height: 2;
+        max-width: 92vw;
+        margin-bottom: 34px;
       }
 
       .hero-title {
         display: block;
       }
 
+      .title-main {
+        font-size: clamp(78px, 25vw, 112px);
+        line-height: 0.78;
+        letter-spacing: -0.075em;
+      }
+
       .hero-right {
+        margin-top: 24px;
+        min-width: 0;
+        padding-bottom: 0;
+      }
+
+      .title-script {
+        font-size: clamp(48px, 15vw, 74px);
+        line-height: 0.96;
+        letter-spacing: -0.055em;
+        max-width: 330px;
+      }
+
+      .hero-description {
+        max-width: 310px;
+        font-size: 15px;
+        line-height: 1.65;
         margin-top: 22px;
+      }
+
+      .hero-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-top: 34px;
+        max-width: 330px;
       }
 
       .button {
         width: 100%;
+        min-height: 56px;
+        padding: 0 20px;
+        font-size: 10px;
+        letter-spacing: 0.22em;
+      }
+
+      .scroll-cue {
+        bottom: 24px;
+      }
+
+      .scroll-line {
+        height: 34px;
+      }
+
+      .interlude {
+        min-height: 72vh;
+        padding-top: 96px;
+        padding-bottom: 96px;
+      }
+
+      .interlude::after {
+        left: 20px;
+        bottom: 24px;
+        font-size: 9px;
+      }
+
+      .quote {
+        text-align: left;
+        font-size: clamp(46px, 14vw, 72px);
+        line-height: 1.02;
+        letter-spacing: -0.055em;
+      }
+
+      .section-light,
+      .section-dark {
+        padding-top: 96px;
+        padding-bottom: 96px;
+      }
+
+      .grid-question,
+      .experience-grid {
+        grid-template-columns: 1fr;
+        gap: 56px;
+      }
+
+      .eyebrow {
+        font-size: 9px;
+        letter-spacing: 0.26em;
+        line-height: 1.9;
+        margin-bottom: 28px;
+      }
+
+      .question-title {
+        font-size: clamp(52px, 15vw, 78px);
+        line-height: 1.02;
+        letter-spacing: -0.045em;
+      }
+
+      .cards {
+        padding-top: 0;
+        gap: 16px;
+      }
+
+      .card {
+        padding: 28px 24px;
+      }
+
+      .card p,
+      .card strong,
+      .experience-copy,
+      .final-copy {
+        font-size: 15px;
+        line-height: 1.75;
+      }
+
+      .experience-title {
+        font-size: clamp(64px, 19vw, 96px);
+        line-height: 0.86;
+        letter-spacing: -0.07em;
+      }
+
+      .award-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .award-card {
+        min-height: auto;
+        padding: 26px 20px;
+      }
+
+      .stats {
+        border-top: 1px solid var(--line);
+      }
+
+      .stat {
+        grid-template-columns: 118px 1fr;
+        column-gap: 18px;
+        padding: 32px 0;
+        align-items: center;
+      }
+
+      .stat b {
+        font-size: clamp(58px, 18vw, 80px);
+      }
+
+      .stat span {
+        font-size: 14px;
+        margin-top: 0;
+        line-height: 1.55;
+      }
+
+      .moments-title {
+        font-size: clamp(54px, 15vw, 82px);
+        line-height: 0.98;
+        letter-spacing: -0.055em;
+        margin-bottom: 48px;
+      }
+
+      .moments-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .moment {
+        min-height: auto;
+        padding: 34px 24px;
+      }
+
+      .moment h3 {
+        font-size: 30px;
+      }
+
+      .final {
+        min-height: 100svh;
+        padding-top: 110px;
+        padding-bottom: 170px;
+      }
+
+      .final-title {
+        font-size: clamp(72px, 19vw, 104px);
+        line-height: 0.88;
+        letter-spacing: -0.07em;
+      }
+
+      .final .button {
+        min-width: 0;
+        max-width: 360px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .final-line {
+        left: 20px;
+        right: 20px;
+        bottom: 104px;
+      }
+
+      .final-footer {
+        left: 20px;
+        right: 20px;
+        bottom: 34px;
+        gap: 24px;
+        align-items: flex-end;
+        font-size: 10px;
+        line-height: 1.55;
+        text-align: right;
+      }
+
+      .final-logo {
+        width: 58px;
       }
     }
   </style>
@@ -719,8 +1066,9 @@
   </header>
 
   <section class="hero">
-    <div class="hero-content">
-      <div class="pill">Evento exclusivo · Teatro Vicente Bianchi · Santiago</div>
+    <div class="soft-glow" style="right:12%; bottom:16%;"></div>
+    <div class="hero-content reveal">
+      <div class="pill">Evento exclusivo · Santiago</div>
 
       <div class="eyebrow hero-eyebrow">
         Experiencia not teambuilding · Teatro Vicente Bianchi · Corporación Cultural de La Reina
@@ -743,7 +1091,7 @@
 
           <div class="hero-actions">
             <a href="https://forms.gle/1scGHMXr8Q4tzvq8A" target="_blank" class="button">Solicitar inscripción</a>
-            <a href="#pregunta" class="button secondary">Descubrir experiencia</a>
+            <a href="#frase" class="button secondary">Descubrir experiencia</a>
           </div>
         </div>
       </div>
@@ -753,8 +1101,14 @@
     </a>
   </section>
 
+  <section class="interlude" id="frase">
+    <div class="quote reveal">
+      No venimos a unir al equipo. <span>Venimos a mirar qué lo separa.</span>
+    </div>
+  </section>
+
   <section class="section-light" id="pregunta">
-    <div class="grid-question">
+    <div class="grid-question reveal">
       <div>
         <div class="eyebrow">La pregunta que nadie responde</div>
 
@@ -781,7 +1135,7 @@
   </section>
 
   <section class="section-dark" id="experiencia">
-    <div class="experience-grid">
+    <div class="experience-grid reveal">
       <div>
         <div class="eyebrow">La experiencia</div>
 
@@ -867,6 +1221,7 @@
   </section>
 
   <section class="section-dark">
+    <div class="reveal">
     <div class="eyebrow">Cómo funciona</div>
 
     <h2 class="moments-title">
@@ -874,7 +1229,9 @@
       Una sola experiencia.
     </h2>
 
-    <div class="moments-grid">
+    </div>
+
+    <div class="moments-grid reveal">
       <div class="moment">
         <div class="moment-number">01</div>
         <div class="moment-time">20 min</div>
@@ -906,7 +1263,7 @@
   </section>
 
   <section class="final" id="inscripcion">
-    <div>
+    <div class="reveal">
       <div class="eyebrow">Inscripciones abiertas</div>
 
       <h2 class="final-title">
@@ -941,11 +1298,37 @@
 
   <script>
     const cursor = document.querySelector('.cursor');
+    const hero = document.querySelector('.hero');
+    const hoverables = document.querySelectorAll('a, button, .card, .award-card, .moment');
 
     window.addEventListener('mousemove', (e) => {
       cursor.style.left = e.clientX + 'px';
       cursor.style.top = e.clientY + 'px';
     });
+
+    hoverables.forEach((item) => {
+      item.addEventListener('mouseenter', () => cursor.classList.add('is-hovering'));
+      item.addEventListener('mouseleave', () => cursor.classList.remove('is-hovering'));
+    });
+
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      if (hero) {
+        hero.style.setProperty('--hero-parallax', y * 0.12 + 'px');
+      }
+    });
+
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.16 });
+
+    reveals.forEach((item) => observer.observe(item));
   </script>
 </body>
 </html>
