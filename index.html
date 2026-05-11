@@ -75,7 +75,7 @@
     }
 
     header {
-      position: fixed;
+      position: absolute;
       top: 0;
       left: 0;
       width: 100%;
@@ -84,7 +84,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      mix-blend-mode: difference;
+      mix-blend-mode: normal;
     }
 
     .logo {
@@ -277,6 +277,52 @@
     .button:hover {
       transform: translateY(-4px);
       background: #ef3446;
+    }
+
+    .scroll-cue {
+      position: absolute;
+      left: 50%;
+      bottom: 28px;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      z-index: 3;
+      text-decoration: none;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 42px;
+      background: rgba(242,236,230,0.22);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scroll-line::after {
+      content: '';
+      position: absolute;
+      top: -20px;
+      left: 0;
+      width: 100%;
+      height: 20px;
+      background: var(--red);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollPulse {
+      0% {
+        top: -20px;
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+      }
+      100% {
+        top: 54px;
+        opacity: 0;
+      }
     }
 
     .button.secondary {
@@ -581,6 +627,12 @@
       background: rgba(255,255,255,0.08);
     }
 
+    .final-logo {
+      width: 72px;
+      opacity: 0.22;
+      display: block;
+    }
+
     .final-footer {
       position: absolute;
       left: 42px;
@@ -662,7 +714,7 @@
   <div class="cursor"></div>
 
   <header>
-<img class="logo" alt="ILA Arquitectura Organizacional" src="./logo-ila.png">
+    <img class="logo" alt="ILA Arquitectura Organizacional" src="./logo-ila.png">
     <div class="meta">4 junio · 2026</div>
   </header>
 
@@ -671,7 +723,7 @@
       <div class="pill">Evento exclusivo · Teatro Vicente Bianchi · Santiago</div>
 
       <div class="eyebrow hero-eyebrow">
-        Experiencia not teambuilding · Teatro Vicente Bianchi · Corporación Cultural de La Reina · Santiago
+        Experiencia not teambuilding · Teatro Vicente Bianchi · Corporación Cultural de La Reina
       </div>
 
       <div class="hero-title">
@@ -696,6 +748,9 @@
         </div>
       </div>
     </div>
+      <a href="#pregunta" class="scroll-cue">
+      <div class="scroll-line"></div>
+    </a>
   </section>
 
   <section class="section-light" id="pregunta">
@@ -875,7 +930,9 @@
     <div class="final-line"></div>
 
     <div class="final-footer">
-      <div></div>
+      <div>
+        <img src="./logo-ila.png" alt="ILA" class="final-logo">
+      </div>
       <div>
         Primera Fila · 4 Junio 2026 · Teatro Vicente Bianchi · Corporación Cultural de La Reina · Santiago
       </div>
